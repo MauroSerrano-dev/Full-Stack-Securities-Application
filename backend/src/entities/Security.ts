@@ -1,10 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 import { DailySeries } from './DailySeries';
 
 @Entity()
 export class Security {
-    @PrimaryGeneratedColumn()
-    id!: number;
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @Column()
     ticker!: string;
@@ -23,4 +24,9 @@ export class Security {
 
     @OneToMany(() => DailySeries, dailySeries => dailySeries.security)
     dailySeries!: DailySeries[];
+
+    @BeforeInsert()
+    generateId() {
+        this.id = uuidv4();
+    }
 }

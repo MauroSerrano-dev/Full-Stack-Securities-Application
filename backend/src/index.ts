@@ -5,6 +5,7 @@ import { Security } from './entities/Security';
 import { DailySeries } from './entities/DailySeries';
 import { seedDatabase } from './populate';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config({ path: '.env.local' });
 
@@ -26,6 +27,8 @@ AppDataSource.initialize().then(async () => {
 
     const app = express();
     app.use(express.json());
+
+    app.use(cors());
 
     const securityRepository = AppDataSource.getRepository(Security);
 
@@ -52,8 +55,8 @@ AppDataSource.initialize().then(async () => {
         }
     });
 
-    app.get('/securities/:id', async (req, res) => {
-        const { id } = req.params;
+    app.get('/securities/:symbol', async (req, res) => {
+        const { symbol } = req.params;
         const { page = 1, limit = 10 } = req.query;
 
         const pageNumber = parseInt(page as string, 10);
@@ -61,15 +64,17 @@ AppDataSource.initialize().then(async () => {
 
         try {
             const security = await securityRepository.findOne({
-                where: { id: parseInt(id, 10) },
+                where: { ticker: symbol },
             });
 
             if (!security) {
                 return res.status(404).json({ message: 'Security not found' });
             }
 
+            const securityId = security.id;
+
             const [dailySeries, total] = await AppDataSource.getRepository(DailySeries).findAndCount({
-                where: { security: { id: security.id } },
+                where: { security: { id: securityId } },
                 skip: (pageNumber - 1) * limitNumber,
                 take: limitNumber,
             });
