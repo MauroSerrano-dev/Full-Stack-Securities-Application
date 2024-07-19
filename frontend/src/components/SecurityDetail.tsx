@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
@@ -25,13 +25,29 @@ interface Security {
 const SecurityDetail: React.FC = () => {
     const { symbol } = useParams<{ symbol: string }>();
     const [security, setSecurity] = useState<Security | null>(null);
+    const [errorStatus, setErrorStatus] = useState<number | null>(null);
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities/${symbol}`).then((response) => {
-            console.log(response.data);
-            setSecurity(response.data);
-        });
+        getSecurity()
     }, [symbol]);
+
+    async function getSecurity() {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities/${symbol}`)
+            setSecurity(response.data);
+        }
+        catch (error) {
+            console.error('error', error);
+            const axiosError = error as AxiosError;
+            if (axiosError.response?.status) {
+                setErrorStatus(axiosError.response.status);
+            }
+        }
+    }
+
+    if (errorStatus === 404) {
+        return <div>Not Found</div>;
+    }
 
     if (!security) {
         return <div>Loading...</div>;
