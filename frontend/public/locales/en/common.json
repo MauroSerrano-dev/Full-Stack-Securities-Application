@@ -1,0 +1,8 @@
+{
+    "ticker": "Ticker",
+    "securityName": "SecurityName",
+    "sector": "Sector",
+    "country": "Country",
+    "trend": "Trend",
+    "rowsPerPage": "Rows per page:"
+}

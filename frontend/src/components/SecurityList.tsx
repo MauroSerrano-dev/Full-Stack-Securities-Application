@@ -12,8 +12,8 @@ import {
     CircularProgress,
     TablePagination,
     TableSortLabel,
-    Box,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface Security {
     id: number;
@@ -24,12 +24,12 @@ interface Security {
     trend: number;
 }
 
-const columns: { id: keyof Security, title: string, width: string }[] = [
-    { id: 'ticker', title: 'Ticker', width: '10%' },
-    { id: 'securityName', title: 'SecurityName', width: '30%' },
-    { id: 'sector', title: 'Sector', width: '20%' },
-    { id: 'country', title: 'Country', width: '20%' },
-    { id: 'trend', title: 'Trend', width: '20%' },
+const columns: { id: keyof Security, width: string }[] = [
+    { id: 'ticker', width: '10%' },
+    { id: 'securityName', width: '30%' },
+    { id: 'sector', width: '20%' },
+    { id: 'country', width: '20%' },
+    { id: 'trend', width: '20%' },
 ];
 
 function SecurityList() {
@@ -43,6 +43,8 @@ function SecurityList() {
     const [order, setOrder] = useState<'asc' | 'desc'>('asc');
 
     const navigate = useNavigate();
+
+    const tCommon = useTranslation('common').t;
 
     useEffect(() => {
         const fetchSecurities = async () => {
@@ -94,17 +96,23 @@ function SecurityList() {
                             {columns.map(column => (
                                 <TableCell
                                     key={column.id}
-                                    style={{ width: column.width }}
+                                    style={{
+                                        width: column.width,
+                                        padding: 0
+                                    }}
                                 >
-                                    <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" height="100%">
-                                        <TableSortLabel
-                                            active={orderBy === column.id}
-                                            direction={orderBy === column.id ? order : 'asc'}
-                                            onClick={() => handleRequestSort(column.id)}
-                                        >
-                                            {column.title}
-                                        </TableSortLabel>
-                                    </Box>
+                                    <TableSortLabel
+                                        onClick={() => handleRequestSort(column.id)}
+                                        active={orderBy === column.id}
+                                        direction={orderBy === column.id ? order : 'asc'}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            padding: '16px'
+                                        }}
+                                    >
+                                        {tCommon(column.id)}
+                                    </TableSortLabel>
                                 </TableCell>
                             ))}
                         </TableRow>
@@ -162,6 +170,7 @@ function SecurityList() {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
+                    labelRowsPerPage={tCommon('rowsPerPage')}
                 />}
         </Paper>
     );

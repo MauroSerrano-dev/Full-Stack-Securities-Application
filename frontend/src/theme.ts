@@ -1,7 +1,7 @@
 // src/theme.ts
 import { createTheme } from '@mui/material/styles';
 
-const primary = '#03646d'
+const primary = '#003134'
 
 const theme = createTheme({
     palette: {
@@ -57,6 +57,22 @@ const theme = createTheme({
                     '&:hover': {
                         backgroundColor: '#e0f7fa',
                     },
+                },
+            },
+        },
+        MuiTableSortLabel: {
+            styleOverrides: {
+                root: {
+                    color: '#ffffff',
+                    '&:hover': {
+                        color: '#ffffff',
+                    },
+                    '&.Mui-active': {
+                        color: '#ffffff',
+                    },
+                },
+                icon: {
+                    color: '#ffffff !important',
                 },
             },
         },

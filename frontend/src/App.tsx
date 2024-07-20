@@ -1,8 +1,8 @@
-// src/App.tsx
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import SecurityList from './components/SecurityList';
 import SecurityDetail from './components/SecurityDetail';
+import '../src/App.css'
 
 function App() {
   return (

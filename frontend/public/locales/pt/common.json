@@ -1,0 +1,8 @@
+{
+    "ticker": "Ticker",
+    "securityName": "Nome da Empresa",
+    "sector": "Setor",
+    "country": "País",
+    "trend": "Tendência",
+    "rowsPerPage": "Linhas por página:"
+}
