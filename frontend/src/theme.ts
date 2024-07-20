@@ -1,13 +1,12 @@
 // src/theme.ts
 import { createTheme } from '@mui/material/styles';
 
+const primary = '#03646d'
+
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#1976d2',
-        },
-        secondary: {
-            main: '#dc004e',
+            main: primary,
         },
         success: {
             main: '#4caf50',
@@ -37,7 +36,7 @@ const theme = createTheme({
         MuiTableCell: {
             styleOverrides: {
                 head: {
-                    backgroundColor: '#1976d2',
+                    backgroundColor: primary,
                     color: '#ffffff',
                     fontWeight: 'bold',
                 },

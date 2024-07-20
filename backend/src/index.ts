@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { Security } from './entities/Security';
 import { DailySeries } from './entities/DailySeries';
 import { seedDatabase } from './populate';
@@ -11,11 +11,11 @@ dotenv.config({ path: '.env.local' });
 
 const AppDataSource = new DataSource({
     type: 'postgres',
-    host: 'localhost',
-    port: 5432,
+    host: process.env.POSTGRES_HOST || 'localhost',
+    port: Number(process.env.POSTGRES_PORT) || 5432,
     username: process.env.POSTGRES_USERNAME,
     password: process.env.POSTGRES_PASSWORD,
-    database: 'postgres',
+    database: process.env.POSTGRES_DB || 'postgres',
     synchronize: true,
     logging: false,
     entities: [Security, DailySeries],
@@ -27,21 +27,25 @@ AppDataSource.initialize().then(async () => {
 
     const app = express();
     app.use(express.json());
-
     app.use(cors());
 
     const securityRepository = AppDataSource.getRepository(Security);
 
-    app.get('/securities', async (req, res) => {
-        const { page = 1, limit = 10 } = req.query;
+    app.get('/securities', async (req: Request, res: Response) => {
+        const { page = '1', limit = '10', sortBy = 'ticker', order = 'ASC' } = req.query;
 
         const pageNumber = parseInt(page as string, 10);
         const limitNumber = parseInt(limit as string, 10);
+        const sortField = sortBy as string;
+        const sortOrder = (typeof order === 'string' && order.toUpperCase() === 'DESC') ? 'DESC' : 'ASC';
 
         try {
             const [securities, total] = await securityRepository.findAndCount({
                 skip: (pageNumber - 1) * limitNumber,
                 take: limitNumber,
+                order: {
+                    [sortField]: sortOrder,
+                },
             });
 
             res.json({
@@ -55,9 +59,9 @@ AppDataSource.initialize().then(async () => {
         }
     });
 
-    app.get('/securities/:symbol', async (req, res) => {
+    app.get('/securities/:symbol', async (req: Request, res: Response) => {
         const { symbol } = req.params;
-        const { page = 1, limit = 10 } = req.query;
+        const { page = '1', limit = '10' } = req.query;
 
         const pageNumber = parseInt(page as string, 10);
         const limitNumber = parseInt(limit as string, 10);
