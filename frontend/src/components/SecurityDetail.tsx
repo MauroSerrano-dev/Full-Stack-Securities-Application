@@ -119,7 +119,7 @@ const SecurityDetail: React.FC = () => {
                     }
                 },
                 title: {
-                    text: tCommon('close_price'),
+                    text: tCommon('stock'),
                     style: {
                         color: theme.palette.text.primary
                     }

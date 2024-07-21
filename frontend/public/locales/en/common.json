@@ -7,7 +7,7 @@
     "rowsPerPage": "Rows per page:",
     "language_button_tooltip": "Change Language",
     "volume": "Volume",
-    "close_price": "Close Price",
+    "stock": "Stock",
     "security_list": "Security List",
     "app_name": "Securities Application"
 }
