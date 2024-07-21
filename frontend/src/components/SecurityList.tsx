@@ -51,27 +51,29 @@ function SecurityList() {
     const navigate = useNavigate();
 
     const { t: tCommon } = useTranslation('common');
+    const { t: tErrors } = useTranslation('errors');
 
     useEffect(() => {
-        async function fetchSecurities() {
-            setLoading(true);
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities`, {
-                    params: { page: page + 1, limit: rowsPerPage, sortBy: orderBy, order: order.toUpperCase() },
-                });
-                setSecurities(response.data.data);
-                setTotalRows(response.data.total);
-                setError(null);
-            } catch (error) {
-                console.error(error)
-                setError('Error fetching securities');
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchSecurities();
     }, [page, rowsPerPage, orderBy, order]);
+
+    async function fetchSecurities() {
+        if (!securities)
+            setLoading(true);
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities`, {
+                params: { page: page + 1, limit: rowsPerPage, sortBy: orderBy, order: order.toUpperCase() },
+            });
+            setSecurities(response.data.data);
+            setTotalRows(response.data.total);
+            setError(null);
+        } catch (error) {
+            console.error(error)
+            setError('error_fetching_data');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     function handleChangePage(event: unknown, newPage: number) {
         setPage(newPage);
@@ -149,7 +151,7 @@ function SecurityList() {
                                         align="center"
                                         style={{ height: (rowsPerPage + 0.95) * 53 }}
                                     >
-                                        {error}
+                                        {tErrors(error)}
                                     </TableCell>
                                 </TableRow>
                                 : securities.length > 0
