@@ -82,12 +82,6 @@ const SecurityDetail: React.FC = () => {
         chart: {
             backgroundColor: 'transparent',
         },
-        title: {
-            text: `${security.securityName} (${security.ticker})`,
-            style: {
-                color: theme.palette.text.primary
-            }
-        },
         xAxis: {
             categories: security.dailySeries.map((series) => series.date),
             labels: {
@@ -162,9 +156,9 @@ const SecurityDetail: React.FC = () => {
 
     return (
         <div>
-            <h2>{security.securityName} ({security.ticker})</h2>
-            <p>{tCommon('country')}: {security.country}</p>
+            <h2>{security.ticker} - {security.securityName}</h2>
             <p>{tCommon('sector')}: {security.sector}</p>
+            <p>{tCommon('country')}: {security.country}</p>
             <Box
                 sx={{
                     overflowX: 'auto',
