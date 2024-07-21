@@ -9,7 +9,7 @@ import { darkTheme, lightTheme } from './theme';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-function App() {
+export default function App() {
   const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'system'>(
     (Cookies.get('themeMode') as 'light' | 'dark' | 'system') || 'system'
   );
@@ -67,5 +67,3 @@ function App() {
     </ThemeProvider>
   );
 }
-
-export default App;

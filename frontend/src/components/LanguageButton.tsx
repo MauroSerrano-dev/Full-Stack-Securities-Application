@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function LanguageButton() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const { t: tLanguage } = useTranslation('language');
+    const { t } = useTranslation('language');
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -26,7 +26,7 @@ export default function LanguageButton() {
 
     return (
         <>
-            <Tooltip title={tLanguage('language_button_tooltip')}>
+            <Tooltip title={t('language_button_tooltip')}>
                 <IconButton onClick={handleClick} color="inherit">
                     <LanguageIcon />
                 </IconButton>

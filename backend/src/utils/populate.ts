@@ -1,6 +1,6 @@
-import { Security } from './entities/Security';
-import { DailySeries } from './entities/DailySeries';
-import data from './data.json';
+import { Security } from '../entities/Security';
+import { DailySeries } from '../entities/DailySeries';
+import data from '../data.json';
 import { DataSource } from 'typeorm';
 
 export const seedDatabase = async (dataSource: DataSource) => {

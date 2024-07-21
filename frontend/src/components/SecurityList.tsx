@@ -35,7 +35,7 @@ const columns: { id: keyof Security, width: string }[] = [
     { id: 'trend', width: '10%' },
 ];
 
-function SecurityList() {
+export default function SecurityList() {
     const [securities, setSecurities] = useState<Security[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -50,8 +50,7 @@ function SecurityList() {
 
     const navigate = useNavigate();
 
-    const { t: tCommon } = useTranslation('common');
-    const { t: tErrors } = useTranslation('errors');
+    const { t } = useTranslation(['common', 'errors']);
 
     useEffect(() => {
         fetchSecurities();
@@ -103,7 +102,7 @@ function SecurityList() {
                 component="div"
                 style={{ padding: '16px' }}
             >
-                {tCommon('security_list')}
+                {t('security_list')}
             </Typography>
             <TableContainer>
                 <Table>
@@ -127,7 +126,7 @@ function SecurityList() {
                                             padding: '16px'
                                         }}
                                     >
-                                        {tCommon(column.id)}
+                                        {t(column.id)}
                                     </TableSortLabel>
                                 </TableCell>
                             ))}
@@ -151,7 +150,7 @@ function SecurityList() {
                                         align="center"
                                         style={{ height: (rowsPerPage + 0.95) * 53 }}
                                     >
-                                        {tErrors(error)}
+                                        {t(error)}
                                     </TableCell>
                                 </TableRow>
                                 : securities.length > 0
@@ -198,11 +197,9 @@ function SecurityList() {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    labelRowsPerPage={tCommon('rowsPerPage')}
+                    labelRowsPerPage={t('rowsPerPage')}
                 />
             }
         </Paper>
     );
 }
-
-export default SecurityList;

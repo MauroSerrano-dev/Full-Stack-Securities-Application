@@ -1,4 +1,3 @@
-// src/i18n.ts
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
@@ -21,7 +20,7 @@ i18n
         react: {
             useSuspense: true,
         },
-        ns: ['common', 'erros', 'language', 'theme'],
+        ns: ['common', 'errors', 'language', 'theme'],
         defaultNS: 'common',
         interpolation: {
             escapeValue: false,

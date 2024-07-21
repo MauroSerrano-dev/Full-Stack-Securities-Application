@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import Highcharts from 'highcharts';
@@ -26,7 +26,7 @@ interface Security {
     dailySeries: DailySeries[];
 }
 
-const SecurityDetail: React.FC = () => {
+export default function SecurityDetail() {
     const { symbol } = useParams<{ symbol: string }>();
     const [security, setSecurity] = useState<Security | null>(null);
     const [errorStatus, setErrorStatus] = useState<number | null>(null);
@@ -34,7 +34,7 @@ const SecurityDetail: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const { t: tCommon } = useTranslation('common');
+    const { t } = useTranslation('common');
 
     useEffect(() => {
         getSecurity()
@@ -43,6 +43,7 @@ const SecurityDetail: React.FC = () => {
     async function getSecurity() {
         try {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities/${symbol}`)
+
             setSecurity(response.data);
         }
         catch (error) {
@@ -104,7 +105,7 @@ const SecurityDetail: React.FC = () => {
                     }
                 },
                 title: {
-                    text: tCommon('volume'),
+                    text: t('volume'),
                     style: {
                         color: theme.palette.text.primary
                     }
@@ -119,7 +120,7 @@ const SecurityDetail: React.FC = () => {
                     }
                 },
                 title: {
-                    text: tCommon('stock'),
+                    text: t('stock'),
                     style: {
                         color: theme.palette.text.primary
                     }
@@ -136,14 +137,14 @@ const SecurityDetail: React.FC = () => {
         },
         series: [
             {
-                name: 'Volume',
+                name: t('volume'),
                 data: security.dailySeries.map((series) => Number(series.volume)),
                 type: 'line',
                 yAxis: 0,
                 color: red[theme.palette.mode === 'dark' ? 600 : 400],
             },
             {
-                name: 'Close Price',
+                name: t('stock'),
                 data: security.dailySeries.map((series) => series.close),
                 type: 'line',
                 yAxis: 1,
@@ -157,8 +158,8 @@ const SecurityDetail: React.FC = () => {
     return (
         <div>
             <h2>{security.ticker} - {security.securityName}</h2>
-            <p>{tCommon('sector')}: {security.sector}</p>
-            <p>{tCommon('country')}: {security.country}</p>
+            <p>{t('sector')}: {security.sector}</p>
+            <p>{t('country')}: {security.country}</p>
             <Box
                 sx={{
                     overflowX: 'auto',
@@ -178,5 +179,3 @@ const SecurityDetail: React.FC = () => {
         </div>
     );
 };
-
-export default SecurityDetail;
