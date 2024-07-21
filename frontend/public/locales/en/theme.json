@@ -1,5 +1,6 @@
 {
-    "light": "light",
-    "dark": "dark",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
     "theme_button_tooltip": "Switch to {{theme}} mode"
 }

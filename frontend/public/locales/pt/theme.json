@@ -1,5 +1,6 @@
 {
-    "light": "claro",
-    "dark": "escuro",
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Automático",
     "theme_button_tooltip": "Mudar para modo {{theme}}"
 }

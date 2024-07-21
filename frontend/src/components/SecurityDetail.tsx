@@ -5,6 +5,7 @@ import Highcharts from 'highcharts';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import { useTheme } from '@mui/material/styles';
 import HighchartsReact from 'highcharts-react-official';
+import { lightBlue, red } from '@mui/material/colors';
 
 HighchartsAccessibility(Highcharts);
 
@@ -112,24 +113,26 @@ const SecurityDetail: React.FC = () => {
         ],
         legend: {
             itemStyle: {
+                color: theme.palette.text.disabled,
+            },
+            itemHoverStyle: {
                 color: theme.palette.text.primary
             }
         },
-
         series: [
             {
                 name: 'Volume',
                 data: security.dailySeries.map((series) => Number(series.volume)),
                 type: 'line',
                 yAxis: 0,
-                color: '#ff6961',
+                color: red[theme.palette.mode === 'dark' ? 600 : 400],
             },
             {
                 name: 'Close Price',
                 data: security.dailySeries.map((series) => series.close),
                 type: 'line',
                 yAxis: 1,
-                color: '#30adcb',
+                color: lightBlue[theme.palette.mode === 'dark' ? 600 : 400],
             },
         ],
     };

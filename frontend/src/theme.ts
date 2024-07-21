@@ -1,7 +1,7 @@
 import { createTheme, Theme } from '@mui/material/styles';
 
 const primaryLight = '#428a91'
-const primaryDark = '#003134'
+const primaryDark = '#174446'
 const transitionDuration = 150
 
 export const lightTheme: Theme = createTheme({
@@ -17,7 +17,7 @@ export const lightTheme: Theme = createTheme({
             main: '#f44336',
         },
         background: {
-            default: '#ffffff',
+            default: '#f4f4f4',
             paper: '#424242',
         },
     },
@@ -52,6 +52,7 @@ export const lightTheme: Theme = createTheme({
             styleOverrides: {
                 root: {
                     backgroundColor: primaryLight,
+                    backgroundImage: 'none',
                     transition: `background-color ${transitionDuration}ms ease-in-out`,
                 }
             },
@@ -167,6 +168,7 @@ export const darkTheme: Theme = createTheme({
             styleOverrides: {
                 root: {
                     backgroundColor: primaryDark,
+                    backgroundImage: 'none',
                     transition: `background-color ${transitionDuration}ms ease-in-out`,
                 }
             },

@@ -13,8 +13,10 @@ import {
     TablePagination,
     TableSortLabel,
     Typography,
+    useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { blue, green, red } from '@mui/material/colors';
 
 interface Security {
     id: number;
@@ -44,12 +46,14 @@ function SecurityList() {
     const [order, setOrder] = useState<'asc' | 'desc'>('asc');
     const [rowHover, setRowHover] = useState<number | null>(null);
 
+    const theme = useTheme()
+
     const navigate = useNavigate();
 
     const tCommon = useTranslation('common').t;
 
     useEffect(() => {
-        const fetchSecurities = async () => {
+        async function fetchSecurities() {
             setLoading(true);
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities`, {
@@ -58,7 +62,8 @@ function SecurityList() {
                 setSecurities(response.data.data);
                 setTotalRows(response.data.total);
                 setError(null);
-            } catch (err) {
+            } catch (error) {
+                console.error(error)
                 setError('Error fetching securities');
             } finally {
                 setLoading(false);
@@ -68,25 +73,25 @@ function SecurityList() {
         fetchSecurities();
     }, [page, rowsPerPage, orderBy, order]);
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+    function handleChangePage(event: unknown, newPage: number) {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    function handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement>) {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
 
-    const handleRequestSort = (property: string) => {
+    function handleRequestSort(property: string) {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
 
     function getTrendColor(trend: number) {
-        if (trend < -0.2) return { default: '#ff6961', hover: '#f44336' };
-        if (trend >= -0.2 && trend <= 0.2) return { default: '#8ecc65', hover: '#4caf50' };
-        return { default: '#30adcb', hover: '#1976d2' };
+        if (trend < -0.2) return red;
+        if (trend >= -0.2 && trend <= 0.2) return green;
+        return blue;
     }
 
     return (
@@ -129,13 +134,21 @@ function SecurityList() {
                     <TableBody>
                         {loading
                             ? <TableRow>
-                                <TableCell colSpan={columns.length} align="center">
+                                <TableCell
+                                    colSpan={columns.length}
+                                    align="center"
+                                    style={{ height: (rowsPerPage + 0.95) * 53 }}
+                                >
                                     <CircularProgress />
                                 </TableCell>
                             </TableRow>
                             : error
                                 ? <TableRow>
-                                    <TableCell colSpan={columns.length} align="center">
+                                    <TableCell
+                                        colSpan={columns.length}
+                                        align="center"
+                                        style={{ height: (rowsPerPage + 0.95) * 53 }}
+                                    >
                                         {error}
                                     </TableCell>
                                 </TableRow>
@@ -155,7 +168,7 @@ function SecurityList() {
                                                     style={{
                                                         width: column.width,
                                                         backgroundColor: column.id === 'trend'
-                                                            ? getTrendColor(security.trend)[rowHover === security.id ? 'hover' : 'default']
+                                                            ? getTrendColor(security.trend)[theme.palette.mode === 'dark' ? (rowHover === security.id ? '900' : '800') : (rowHover === security.id ? '500' : '400')]
                                                             : undefined,
                                                         color: column.id === 'trend' ? '#fff' : undefined
                                                     }}
@@ -184,7 +197,8 @@ function SecurityList() {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     labelRowsPerPage={tCommon('rowsPerPage')}
-                />}
+                />
+            }
         </Paper>
     );
 }
