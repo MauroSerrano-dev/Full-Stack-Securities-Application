@@ -61,10 +61,10 @@ AppDataSource.initialize().then(async () => {
 
     app.get('/securities/:symbol', async (req: Request, res: Response) => {
         const { symbol } = req.params;
-        const { page = '1', limit = '10' } = req.query;
+        const { page = '1', limit } = req.query;
 
         const pageNumber = parseInt(page as string, 10);
-        const limitNumber = parseInt(limit as string, 10);
+        const limitNumber = limit ? parseInt(limit as string, 10) : undefined;
 
         try {
             const security = await securityRepository.findOne({
@@ -77,25 +77,36 @@ AppDataSource.initialize().then(async () => {
 
             const securityId = security.id;
 
-            const [dailySeries, total] = await AppDataSource.getRepository(DailySeries).findAndCount({
-                where: { security: { id: securityId } },
-                skip: (pageNumber - 1) * limitNumber,
-                take: limitNumber,
-            });
+            let dailySeries;
+            let total;
+
+            if (limitNumber) {
+                [dailySeries, total] = await AppDataSource.getRepository(DailySeries).findAndCount({
+                    where: { security: { id: securityId } },
+                    skip: (pageNumber - 1) * limitNumber,
+                    take: limitNumber,
+                });
+            } else {
+                dailySeries = await AppDataSource.getRepository(DailySeries).find({
+                    where: { security: { id: securityId } },
+                });
+                total = dailySeries.length;
+            }
 
             res.json({
                 ...security,
                 dailySeries,
-                dailySeriesPagination: {
+                dailySeriesPagination: limitNumber ? {
                     total,
                     page: pageNumber,
                     last_page: Math.ceil(total / limitNumber),
-                },
+                } : undefined,
             });
         } catch (error) {
             res.status(500).json({ message: 'Error fetching security details', error });
         }
     });
+
 
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () => {

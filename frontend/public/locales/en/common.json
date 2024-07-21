@@ -4,5 +4,6 @@
     "sector": "Sector",
     "country": "Country",
     "trend": "Trend",
-    "rowsPerPage": "Rows per page:"
+    "rowsPerPage": "Rows per page:",
+    "language_button_tooltip": "Change Language"
 }

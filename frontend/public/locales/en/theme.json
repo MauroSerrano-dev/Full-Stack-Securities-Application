@@ -1,0 +1,5 @@
+{
+    "light": "light",
+    "dark": "dark",
+    "theme_button_tooltip": "Switch to {{theme}} mode"
+}

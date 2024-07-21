@@ -1,0 +1,5 @@
+{
+    "light": "claro",
+    "dark": "escuro",
+    "theme_button_tooltip": "Mudar para modo {{theme}}"
+}

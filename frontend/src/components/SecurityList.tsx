@@ -12,6 +12,7 @@ import {
     CircularProgress,
     TablePagination,
     TableSortLabel,
+    Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -26,10 +27,10 @@ interface Security {
 
 const columns: { id: keyof Security, width: string }[] = [
     { id: 'ticker', width: '10%' },
-    { id: 'securityName', width: '30%' },
-    { id: 'sector', width: '20%' },
-    { id: 'country', width: '20%' },
-    { id: 'trend', width: '20%' },
+    { id: 'securityName', width: '40%' },
+    { id: 'sector', width: '25%' },
+    { id: 'country', width: '15%' },
+    { id: 'trend', width: '10%' },
 ];
 
 function SecurityList() {
@@ -41,6 +42,7 @@ function SecurityList() {
     const [totalRows, setTotalRows] = useState<number>(0);
     const [orderBy, setOrderBy] = useState<string>('securityName');
     const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+    const [rowHover, setRowHover] = useState<number | null>(null);
 
     const navigate = useNavigate();
 
@@ -82,13 +84,20 @@ function SecurityList() {
     };
 
     function getTrendColor(trend: number) {
-        if (trend < -0.2) return '#f44336';
-        if (trend >= -0.2 && trend <= 0.2) return '#4caf50';
-        if (trend > 0.2) return '#1976d2';
+        if (trend < -0.2) return { default: '#ff6961', hover: '#f44336' };
+        if (trend >= -0.2 && trend <= 0.2) return { default: '#8ecc65', hover: '#4caf50' };
+        return { default: '#30adcb', hover: '#1976d2' };
     }
 
     return (
         <Paper>
+            <Typography
+                variant="h6"
+                component="div"
+                style={{ padding: '16px' }}
+            >
+                Security List
+            </Typography>
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -137,13 +146,17 @@ function SecurityList() {
                                             onClick={() => navigate(`/securities/${security.ticker}`)}
                                             hover
                                             style={{ cursor: 'pointer' }}
+                                            onMouseEnter={() => setRowHover(security.id)}
+                                            onMouseLeave={() => setRowHover(null)}
                                         >
                                             {columns.map(column =>
                                                 <TableCell
                                                     key={column.id}
                                                     style={{
                                                         width: column.width,
-                                                        backgroundColor: column.id === 'trend' ? getTrendColor(security.trend) : undefined,
+                                                        backgroundColor: column.id === 'trend'
+                                                            ? getTrendColor(security.trend)[rowHover === security.id ? 'hover' : 'default']
+                                                            : undefined,
                                                         color: column.id === 'trend' ? '#fff' : undefined
                                                     }}
                                                 >
