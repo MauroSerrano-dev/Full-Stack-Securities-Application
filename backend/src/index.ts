@@ -32,12 +32,11 @@ AppDataSource.initialize().then(async () => {
     const securityRepository = AppDataSource.getRepository(Security);
 
     app.get('/securities', async (req: Request, res: Response) => {
-        const { page = '1', limit = '10', sortBy = 'ticker', order = 'ASC' } = req.query;
-
+        const { page = '1', limit = '10', sortBy = 'ticker', order = 'asc' } = req.query;
         const pageNumber = parseInt(page as string, 10);
         const limitNumber = parseInt(limit as string, 10);
         const sortField = sortBy as string;
-        const sortOrder = (typeof order === 'string' && order.toUpperCase() === 'DESC') ? 'DESC' : 'ASC';
+        const sortOrder = (typeof order === 'string' && order.toLocaleLowerCase() === 'desc') ? 'desc' : 'asc';
 
         try {
             const [securities, total] = await securityRepository.findAndCount({

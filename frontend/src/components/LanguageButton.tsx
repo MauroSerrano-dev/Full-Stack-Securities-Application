@@ -36,8 +36,8 @@ export default function LanguageButton() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => changeLanguage('en')}>{tLanguage('en')}</MenuItem>
-                <MenuItem onClick={() => changeLanguage('pt')}>{tLanguage('pt')}</MenuItem>
+                <MenuItem onClick={() => changeLanguage('en')}>English</MenuItem>
+                <MenuItem onClick={() => changeLanguage('pt')}>Português</MenuItem>
             </Menu>
         </>
     );

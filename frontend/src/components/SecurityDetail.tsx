@@ -6,6 +6,8 @@ import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import { useTheme } from '@mui/material/styles';
 import HighchartsReact from 'highcharts-react-official';
 import { lightBlue, red } from '@mui/material/colors';
+import { Box, CircularProgress, useMediaQuery } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 HighchartsAccessibility(Highcharts);
 
@@ -30,6 +32,9 @@ const SecurityDetail: React.FC = () => {
     const [errorStatus, setErrorStatus] = useState<number | null>(null);
 
     const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const { t: tCommon } = useTranslation('common');
 
     useEffect(() => {
         getSecurity()
@@ -50,11 +55,27 @@ const SecurityDetail: React.FC = () => {
     }
 
     if (errorStatus === 404) {
-        return <div>Not Found</div>;
+        return (
+            <Box
+                display="flex"
+                justifyContent="center"
+                pt={5}
+            >
+                Not Found
+            </Box>
+        );
     }
 
     if (!security) {
-        return <div>Loading...</div>;
+        return (
+            <Box
+                display="flex"
+                justifyContent="center"
+                pt={5}
+            >
+                <CircularProgress />
+            </Box>
+        );
     }
 
     const chartOptions: Highcharts.Options = {
@@ -89,7 +110,7 @@ const SecurityDetail: React.FC = () => {
                     }
                 },
                 title: {
-                    text: 'Volume',
+                    text: tCommon('volume'),
                     style: {
                         color: theme.palette.text.primary
                     }
@@ -104,7 +125,7 @@ const SecurityDetail: React.FC = () => {
                     }
                 },
                 title: {
-                    text: 'Close Price',
+                    text: tCommon('close_price'),
                     style: {
                         color: theme.palette.text.primary
                     }
@@ -142,9 +163,24 @@ const SecurityDetail: React.FC = () => {
     return (
         <div>
             <h2>{security.securityName} ({security.ticker})</h2>
-            <p>Country: {security.country}</p>
-            <p>Sector: {security.sector}</p>
-            <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+            <p>{tCommon('country')}: {security.country}</p>
+            <p>{tCommon('sector')}: {security.sector}</p>
+            <Box
+                sx={{
+                    overflowX: 'auto',
+                    whiteSpace: 'nowrap'
+                }}
+            >
+                <Box
+                    sx={{
+                        display: 'inline-block',
+                        minWidth: isMobile ? '600px' : '100%',
+                        width: isMobile ? 'auto' : '100%'
+                    }}
+                >
+                    <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+                </Box>
+            </Box>
         </div>
     );
 };

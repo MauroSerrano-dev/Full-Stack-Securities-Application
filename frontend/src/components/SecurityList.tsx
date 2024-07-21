@@ -50,7 +50,7 @@ function SecurityList() {
 
     const navigate = useNavigate();
 
-    const tCommon = useTranslation('common').t;
+    const { t: tCommon } = useTranslation('common');
 
     useEffect(() => {
         async function fetchSecurities() {
@@ -101,7 +101,7 @@ function SecurityList() {
                 component="div"
                 style={{ padding: '16px' }}
             >
-                Security List
+                {tCommon('security_list')}
             </Typography>
             <TableContainer>
                 <Table>

@@ -4,5 +4,9 @@
     "sector": "Setor",
     "country": "País",
     "trend": "Tendência",
-    "rowsPerPage": "Linhas por página:"
+    "rowsPerPage": "Linhas por página:",
+    "volume": "Volume",
+    "close_price": "Preço de Fechamento",
+    "security_list": "Lista de Ativos",
+    "app_name": "Aplicação de Ativos"
 }

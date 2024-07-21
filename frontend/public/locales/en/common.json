@@ -5,5 +5,9 @@
     "country": "Country",
     "trend": "Trend",
     "rowsPerPage": "Rows per page:",
-    "language_button_tooltip": "Change Language"
+    "language_button_tooltip": "Change Language",
+    "volume": "Volume",
+    "close_price": "Close Price",
+    "security_list": "Security List",
+    "app_name": "Securities Application"
 }
