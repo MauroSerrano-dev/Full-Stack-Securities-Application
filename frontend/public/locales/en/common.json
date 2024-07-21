@@ -1,6 +1,6 @@
 {
-    "ticker": "Ticker",
-    "securityName": "SecurityName",
+    "ticker": "Symbol",
+    "securityName": "Name",
     "sector": "Sector",
     "country": "Country",
     "trend": "Trend",
@@ -9,5 +9,6 @@
     "volume": "Volume",
     "stock": "Stock",
     "security_list": "Security List",
-    "app_name": "Securities Application"
+    "app_name": "Securities Application",
+    "label_displayed_rows": "{{from}}-{{to}} of {{current}}"
 }

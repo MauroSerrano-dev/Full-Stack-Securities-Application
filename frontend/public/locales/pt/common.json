@@ -1,6 +1,6 @@
 {
-    "ticker": "Ticker",
-    "securityName": "Nome da Empresa",
+    "ticker": "Símbolo",
+    "securityName": "Nome",
     "sector": "Setor",
     "country": "País",
     "trend": "Tendência",
@@ -8,5 +8,6 @@
     "volume": "Volume",
     "stock": "Ação",
     "security_list": "Lista de Ativos",
-    "app_name": "Aplicação de Ativos"
+    "app_name": "Aplicação de Ativos",
+    "label_displayed_rows": "{{from}}-{{to}} de {{current}}"
 }

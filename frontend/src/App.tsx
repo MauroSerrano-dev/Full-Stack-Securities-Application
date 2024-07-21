@@ -19,7 +19,7 @@ export default function App() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (event: MediaQueryListEvent) => {
+    function handleChange(event: MediaQueryListEvent) {
       if (themeMode === 'system') {
         setIsDarkMode(event.matches);
       }

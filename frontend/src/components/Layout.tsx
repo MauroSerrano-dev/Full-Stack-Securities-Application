@@ -15,7 +15,7 @@ export default function Layout(props: LayoutProps) {
         themeMode
     } = props
 
-    const { t } = useTranslation('common')
+    const { t: tCommon } = useTranslation('common')
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -34,7 +34,7 @@ export default function Layout(props: LayoutProps) {
                         <Typography
                             variant="h6"
                         >
-                            {t('app_name')}
+                            {tCommon('app_name')}
                         </Typography>
                     </Link>
                     <Box display='flex' gap={1}>
@@ -56,7 +56,7 @@ export default function Layout(props: LayoutProps) {
             </Box>
             <Box component="footer" py={3} textAlign="center">
                 <Typography variant="body2" color="textSecondary">
-                    © {new Date().getFullYear()} {t('app_name')}
+                    © {new Date().getFullYear()} {tCommon('app_name')}
                 </Typography>
             </Box>
         </Box>

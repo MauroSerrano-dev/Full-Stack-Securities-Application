@@ -34,7 +34,7 @@ export default function SecurityDetail() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const { t } = useTranslation('common');
+    const { t: tCommon } = useTranslation('common');
 
     useEffect(() => {
         getSecurity()
@@ -43,7 +43,6 @@ export default function SecurityDetail() {
     async function getSecurity() {
         try {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities/${symbol}`)
-
             setSecurity(response.data);
         }
         catch (error) {
@@ -105,7 +104,7 @@ export default function SecurityDetail() {
                     }
                 },
                 title: {
-                    text: t('volume'),
+                    text: tCommon('volume'),
                     style: {
                         color: theme.palette.text.primary
                     }
@@ -120,7 +119,7 @@ export default function SecurityDetail() {
                     }
                 },
                 title: {
-                    text: t('stock'),
+                    text: tCommon('stock'),
                     style: {
                         color: theme.palette.text.primary
                     }
@@ -137,14 +136,14 @@ export default function SecurityDetail() {
         },
         series: [
             {
-                name: t('volume'),
+                name: tCommon('volume'),
                 data: security.dailySeries.map((series) => Number(series.volume)),
                 type: 'line',
                 yAxis: 0,
                 color: red[theme.palette.mode === 'dark' ? 600 : 400],
             },
             {
-                name: t('stock'),
+                name: tCommon('stock'),
                 data: security.dailySeries.map((series) => series.close),
                 type: 'line',
                 yAxis: 1,
@@ -158,8 +157,8 @@ export default function SecurityDetail() {
     return (
         <div>
             <h2>{security.ticker} - {security.securityName}</h2>
-            <p>{t('sector')}: {security.sector}</p>
-            <p>{t('country')}: {security.country}</p>
+            <p>{tCommon('sector')}: {security.sector}</p>
+            <p>{tCommon('country')}: {security.country}</p>
             <Box
                 sx={{
                     overflowX: 'auto',

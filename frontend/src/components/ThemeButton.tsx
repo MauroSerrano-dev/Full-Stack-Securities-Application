@@ -16,7 +16,7 @@ interface ThemeButtonProps {
 
 export default function ThemeButton(props: ThemeButtonProps) {
     const { setThemeMode, themeMode } = props;
-    const { t } = useTranslation('theme');
+    const { t: tTheme } = useTranslation('theme');
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     useEffect(() => {
@@ -61,7 +61,7 @@ export default function ThemeButton(props: ThemeButtonProps) {
 
     return (
         <>
-            <Tooltip title={t('theme_button_tooltip', { theme: t(themeMode) })}>
+            <Tooltip title={tTheme('theme_button_tooltip', { theme: tTheme(themeMode) })}>
                 <IconButton onClick={handleClick} color="inherit">
                     {getIcon()}
                 </IconButton>
@@ -71,9 +71,9 @@ export default function ThemeButton(props: ThemeButtonProps) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => handleChangeTheme('light')}>{t('light')}</MenuItem>
-                <MenuItem onClick={() => handleChangeTheme('dark')}>{t('dark')}</MenuItem>
-                <MenuItem onClick={() => handleChangeTheme('system')}>{t('system')}</MenuItem>
+                <MenuItem onClick={() => handleChangeTheme('light')}>{tTheme('light')}</MenuItem>
+                <MenuItem onClick={() => handleChangeTheme('dark')}>{tTheme('dark')}</MenuItem>
+                <MenuItem onClick={() => handleChangeTheme('system')}>{tTheme('system')}</MenuItem>
             </Menu>
         </>
     );

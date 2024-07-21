@@ -50,7 +50,8 @@ export default function SecurityList() {
 
     const navigate = useNavigate();
 
-    const { t } = useTranslation(['common', 'errors']);
+    const { t: tCommon } = useTranslation('common');
+    const { t: tErrors } = useTranslation('errors');
 
     useEffect(() => {
         fetchSecurities();
@@ -61,7 +62,7 @@ export default function SecurityList() {
             setLoading(true);
         try {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities`, {
-                params: { page: page + 1, limit: rowsPerPage, sortBy: orderBy, order: order.toUpperCase() },
+                params: { page: page + 1, limit: rowsPerPage, sortBy: orderBy, order: order },
             });
             setSecurities(response.data.data);
             setTotalRows(response.data.total);
@@ -102,7 +103,7 @@ export default function SecurityList() {
                 component="div"
                 style={{ padding: '16px' }}
             >
-                {t('security_list')}
+                {tCommon('security_list')}
             </Typography>
             <TableContainer>
                 <Table>
@@ -126,7 +127,7 @@ export default function SecurityList() {
                                             padding: '16px'
                                         }}
                                     >
-                                        {t(column.id)}
+                                        {tCommon(column.id)}
                                     </TableSortLabel>
                                 </TableCell>
                             ))}
@@ -150,7 +151,7 @@ export default function SecurityList() {
                                         align="center"
                                         style={{ height: (rowsPerPage + 0.95) * 53 }}
                                     >
-                                        {t(error)}
+                                        {tErrors(error)}
                                     </TableCell>
                                 </TableRow>
                                 : securities.length > 0
@@ -197,7 +198,8 @@ export default function SecurityList() {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    labelRowsPerPage={t('rowsPerPage')}
+                    labelRowsPerPage={tCommon('rowsPerPage')}
+                    labelDisplayedRows={({ from, to, count }) => tCommon('label_displayed_rows', { from: from, to: to, current: count })}
                 />
             }
         </Paper>

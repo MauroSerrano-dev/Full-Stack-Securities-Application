@@ -2,7 +2,7 @@ import { createTheme, Theme } from '@mui/material/styles';
 
 const primaryLight = '#428a91'
 const primaryDark = '#174446'
-const transitionDuration = 150
+const transitionDuration = 100
 
 export const lightTheme: Theme = createTheme({
     palette: {
