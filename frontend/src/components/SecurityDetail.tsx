@@ -41,11 +41,17 @@ export default function SecurityDetail() {
     }, [symbol, theme]);
 
     async function getSecurity() {
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities/${symbol}`)
-            setSecurity(response.data);
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+        if (!backendUrl) {
+            console.error('VITE_BACKEND_URL is not defined');
+            return;
         }
-        catch (error) {
+
+        try {
+            const response = await axios.get(`${backendUrl}/securities/${symbol}`);
+            setSecurity(response.data);
+        } catch (error) {
             console.error('error', error);
             const axiosError = error as AxiosError;
             if (axiosError.response?.status) {

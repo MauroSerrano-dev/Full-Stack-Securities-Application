@@ -1,3 +1,4 @@
 {
-    "error_fetching_data": "Error fetching data"
+    "error_fetching_data": "Error fetching data",
+    "backend_url_not_defined": "VITE_BACKEND_URL is not defined"
 }

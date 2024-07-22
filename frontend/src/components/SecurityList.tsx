@@ -58,17 +58,27 @@ export default function SecurityList() {
     }, [page, rowsPerPage, orderBy, order]);
 
     async function fetchSecurities() {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+        if (!backendUrl) {
+            console.error('VITE_BACKEND_URL is not defined');
+            setError('backend_url_not_defined');
+            setLoading(false);
+            return;
+        }
+
         if (!securities)
             setLoading(true);
+
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/securities`, {
+            const response = await axios.get(`${backendUrl}/securities`, {
                 params: { page: page + 1, limit: rowsPerPage, sortBy: orderBy, order: order },
             });
             setSecurities(response.data.data);
             setTotalRows(response.data.total);
             setError(null);
         } catch (error) {
-            console.error(error)
+            console.error('Error fetching securities', error);
             setError('error_fetching_data');
         } finally {
             setLoading(false);
