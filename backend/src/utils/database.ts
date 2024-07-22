@@ -3,7 +3,7 @@ import { Security } from '../entities/Security';
 import { DailySeries } from '../entities/DailySeries';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '.env' });
+dotenv.config();
 
 const requiredEnvVars = [
     'POSTGRES_HOST',
@@ -31,3 +31,22 @@ export const AppDataSource = new DataSource({
     logging: false,
     entities: [Security, DailySeries],
 });
+
+AppDataSource.initialize()
+    .then(() => {
+        console.log('Data Source has been initialized successfully.');
+    })
+    .catch((err) => {
+        console.error('Failed to initialize the Data Source.');
+        console.error('Error details:', err.message);
+        if (err.code === '28P01') {
+            console.error('The password authentication failed. Please check your POSTGRES_PASSWORD.');
+        } else if (err.code === 'ECONNREFUSED') {
+            console.error('Connection was refused. Please check if your PostgreSQL server is running and reachable.');
+        } else if (err.code === 'ENOTFOUND') {
+            console.error('The host specified could not be found. Please check your POSTGRES_HOST.');
+        } else {
+            console.error('An unknown error occurred during the database connection attempt.');
+        }
+        process.exit(1);
+    });
