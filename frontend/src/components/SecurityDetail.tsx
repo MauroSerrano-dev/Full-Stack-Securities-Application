@@ -162,6 +162,7 @@ export default function SecurityDetail() {
 
     return (
         <div>
+            <h1>{tCommon('security_detail_title')}</h1>
             <h2>{security.ticker} - {security.securityName}</h2>
             <p>{tCommon('sector')}: {security.sector}</p>
             <p>{tCommon('country')}: {security.country}</p>
