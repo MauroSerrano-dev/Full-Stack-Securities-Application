@@ -3,7 +3,7 @@ import { Security } from '../entities/Security';
 import { DailySeries } from '../entities/DailySeries';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env' });
 
 export const AppDataSource = new DataSource({
     type: 'postgres',

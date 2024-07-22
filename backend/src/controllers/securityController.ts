@@ -3,7 +3,7 @@ import { findSecurities, findSecurityBySymbol } from '../services/securityServic
 import { findDailySeriesBySecurity } from '../services/dailySeriesService';
 
 export const getSecurities = async (req: Request, res: Response) => {
-    const { page = '1', limit = '10', sortBy = 'ticker', order = 'asc' } = req.query;
+    const { page = '1', limit = '10', sortBy = 'ticker', order = 'asc' } = req.query || {};
     const pageNumber = parseInt(page as string, 10);
     const limitNumber = parseInt(limit as string, 10);
     const sortField = sortBy as string;
@@ -24,11 +24,16 @@ export const getSecurities = async (req: Request, res: Response) => {
 };
 
 export const getSecurityBySymbol = async (req: Request, res: Response) => {
-    const { symbol } = req.params;
-    const { page = '1', limit } = req.query;
+    const { symbol } = req.params || {};
+    const { page = '1', limit } = req.query || {};
+
+    if (!symbol) {
+        return res.status(400).json({ message: 'Symbol is required' });
+    }
 
     const pageNumber = parseInt(page as string, 10);
     const limitNumber = limit ? parseInt(limit as string, 10) : undefined;
+    const defaultLimit = 1000; // Define um limite grande, mas razoável
 
     try {
         const security = await findSecurityBySymbol(symbol);
@@ -39,25 +44,27 @@ export const getSecurityBySymbol = async (req: Request, res: Response) => {
 
         const securityId = security.id;
 
-        let dailySeries;
-        let total;
+        try {
+            let dailySeries, total;
 
-        if (limitNumber) {
-            [dailySeries, total] = await findDailySeriesBySecurity(securityId, pageNumber, limitNumber);
-        } else {
-            dailySeries = await findDailySeriesBySecurity(securityId, pageNumber, Number.MAX_SAFE_INTEGER);
-            total = dailySeries.length;
+            if (limitNumber) {
+                [dailySeries, total] = await findDailySeriesBySecurity(securityId, pageNumber, limitNumber);
+            } else {
+                [dailySeries, total] = await findDailySeriesBySecurity(securityId, pageNumber, defaultLimit);
+            }
+
+            res.json({
+                ...security,
+                dailySeries: dailySeries,
+                dailySeriesPagination: limitNumber ? {
+                    total,
+                    page: pageNumber,
+                    last_page: Math.ceil(total / limitNumber),
+                } : undefined,
+            });
+        } catch (error) {
+            res.status(500).json({ message: 'Error fetching daily series', error });
         }
-
-        res.json({
-            ...security,
-            dailySeries: dailySeries[0],
-            dailySeriesPagination: limitNumber ? {
-                total,
-                page: pageNumber,
-                last_page: Math.ceil(total / limitNumber),
-            } : undefined,
-        });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching security details', error });
     }
