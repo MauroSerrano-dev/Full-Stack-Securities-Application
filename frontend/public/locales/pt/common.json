@@ -9,5 +9,6 @@
     "stock": "Ação",
     "security_list": "Lista de Ativos",
     "app_name": "Aplicação de Ativos",
-    "label_displayed_rows": "{{from}}-{{to}} de {{current}}"
+    "label_displayed_rows": "{{from}}-{{to}} de {{current}}",
+    "security_detail_title": "Detalhes do ativo"
 }

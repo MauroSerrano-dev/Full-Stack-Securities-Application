@@ -42,6 +42,7 @@ export default function SecurityDetail() {
 
     async function getSecurity() {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const apiSecretKey = import.meta.env.VITE_API_SECRET_KEY;
 
         if (!backendUrl) {
             console.error('VITE_BACKEND_URL is not defined');
@@ -49,7 +50,11 @@ export default function SecurityDetail() {
         }
 
         try {
-            const response = await axios.get(`${backendUrl}/securities/${symbol}`);
+            const response = await axios.get(`${backendUrl}/securities/${symbol}`, {
+                headers: {
+                    'x-api-key': apiSecretKey,
+                },
+            });
             setSecurity(response.data);
         } catch (error) {
             console.error('error', error);
@@ -162,6 +167,7 @@ export default function SecurityDetail() {
 
     return (
         <div>
+            <h1>{tCommon('security_detail_title')}</h1>
             <h2>{security.ticker} - {security.securityName}</h2>
             <p>{tCommon('sector')}: {security.sector}</p>
             <p>{tCommon('country')}: {security.country}</p>

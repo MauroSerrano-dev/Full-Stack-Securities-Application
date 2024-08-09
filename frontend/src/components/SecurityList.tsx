@@ -59,6 +59,7 @@ export default function SecurityList() {
 
     async function fetchSecurities() {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const apiSecretKey = import.meta.env.VITE_API_SECRET_KEY;
 
         if (!backendUrl) {
             console.error('VITE_BACKEND_URL is not defined');
@@ -72,7 +73,15 @@ export default function SecurityList() {
 
         try {
             const response = await axios.get(`${backendUrl}/securities`, {
-                params: { page: page + 1, limit: rowsPerPage, sortBy: orderBy, order: order },
+                headers: {
+                    'x-api-key': apiSecretKey,
+                },
+                params: {
+                    page: page + 1,
+                    limit: rowsPerPage,
+                    sortBy: orderBy,
+                    order: order,
+                },
             });
             setSecurities(response.data.data);
             setTotalRows(response.data.total);

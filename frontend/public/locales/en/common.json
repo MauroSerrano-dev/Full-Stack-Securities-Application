@@ -10,5 +10,6 @@
     "stock": "Stock",
     "security_list": "Security List",
     "app_name": "Securities Application",
-    "label_displayed_rows": "{{from}}-{{to}} of {{current}}"
+    "label_displayed_rows": "{{from}}-{{to}} of {{current}}",
+    "security_detail_title": " Security Detail"
 }
