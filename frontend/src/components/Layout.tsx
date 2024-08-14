@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, useMediaQuery, useTheme } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 import ThemeButton from './ThemeButton';
 import LanguageButton from './LanguageButton';
